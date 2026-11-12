@@ -17,6 +17,7 @@
 /* Begin PBXFileReference section */
 		B56977D530A48E55009AB872 /* Runlet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runlet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5BC924430A59A05006AA3C0 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B5BC924B30A5A60A006AA3C0 /* ci.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = ci.yml; path = .github/workflows/ci.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -57,6 +58,7 @@
 		B56977CC30A48E55009AB872 = {
 			isa = PBXGroup;
 			children = (
+				B5BC924B30A5A60A006AA3C0 /* ci.yml */,
 				B5BC924430A59A05006AA3C0 /* README.md */,
 				B56977D730A48E55009AB872 /* Runlet */,
 				B56977D630A48E55009AB872 /* Products */,
