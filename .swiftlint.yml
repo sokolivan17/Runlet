@@ -1,0 +1,16 @@
+included:
+  - Packages
+  - App
+excluded:
+  - "**/.build"
+
+disabled_rules:
+  - trailing_comma
+  - function_parameter_count   # SwiftData models and value-type initialisers are wide by nature
+
+line_length:
+  warning: 140
+  error: 180
+
+identifier_name:
+  min_length: 2

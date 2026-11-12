@@ -1,0 +1,308 @@
+{
+  "info": {
+    "name": "Runlet Demo",
+    "description": "Sample collection for trying Runlet: variables, auth, bodies, folders and deliberate failures.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://httpbin.org"
+    },
+    {
+      "key": "jsonApi",
+      "value": "https://jsonplaceholder.typicode.com"
+    },
+    {
+      "key": "token",
+      "value": "demo-token"
+    },
+    {
+      "key": "apiKey",
+      "value": "demo-key"
+    },
+    {
+      "key": "postId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Basics",
+      "item": [
+        {
+          "name": "Echo GET",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "X-Disabled-Header",
+                "value": "ignored",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/get?source=runlet&version=1"
+            }
+          }
+        },
+        {
+          "name": "Request headers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Runlet-Demo",
+                "value": "true"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/headers"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Bearer (inherited from collection)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/bearer"
+            }
+          }
+        },
+        {
+          "name": "Basic auth",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/basic-auth/user/pass"
+            },
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "user"
+                },
+                {
+                  "key": "password",
+                  "value": "pass"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "API key in query",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/get"
+            },
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "api_key"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "query"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bodies",
+      "item": [
+        {
+          "name": "POST raw JSON",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/post"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\": \"Hello from Runlet\", \"postId\": \"{{postId}}\"}"
+            }
+          }
+        },
+        {
+          "name": "POST form urlencoded",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/post"
+            },
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "name",
+                  "value": "Runlet Demo"
+                },
+                {
+                  "key": "note",
+                  "value": "a & b = c"
+                },
+                {
+                  "key": "skipped",
+                  "value": "x",
+                  "disabled": true
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Status and timing",
+      "item": [
+        {
+          "name": "Expected 200",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/status/200"
+            }
+          }
+        },
+        {
+          "name": "Redirect (302 is a pass)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/status/302"
+            }
+          }
+        },
+        {
+          "name": "Slow response (1 s)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/delay/1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "JSONPlaceholder",
+      "item": [
+        {
+          "name": "Get post by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{jsonApi}}/posts/{{postId}}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Create post",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{jsonApi}}/posts"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\": \"runlet\", \"body\": \"demo\", \"userId\": 1}"
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Failure demos",
+      "item": [
+        {
+          "name": "Server returns 404",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/status/404"
+            }
+          }
+        },
+        {
+          "name": "Server returns 500",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/status/500"
+            }
+          }
+        },
+        {
+          "name": "Unresolved variable",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://{{missingHost}}/anything"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

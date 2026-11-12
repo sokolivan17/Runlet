@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test ${{ matrix.package }}
+    runs-on: macos-26
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [RunnerCore, RunnerEngine, RunnerPersistence, RunnerFeatures, RunnerUI]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Swift version
+        run: swift --version
+      - name: Run tests
+        run: swift test --package-path Packages/${{ matrix.package }}
+
+  lint:
+    name: SwiftLint
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install SwiftLint
+        run: brew install swiftlint
+      - name: Lint
+        run: swiftlint
+        
+  app:
+    name: Build app
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build for simulator
+        run: |
+          xcodebuild build \
+            -project Runlet.xcodeproj \
+            -scheme Runlet \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO
+
