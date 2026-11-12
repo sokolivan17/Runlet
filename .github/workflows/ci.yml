@@ -36,9 +36,11 @@ jobs:
         
   app:
     name: Build app
-    runs-on: macos-26
+    runs-on: xcode-27
     steps:
       - uses: actions/checkout@v4
+      - name: Xcode version
+        run: xcodebuild -version
       - name: Build for simulator
         run: |
           xcodebuild build \
